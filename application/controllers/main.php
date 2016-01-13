@@ -16,8 +16,9 @@ class Main extends CI_Controller {
 		$this->load->model('model_expenses');
         
 		//set validation rules
-		$this->form_validation->set_rules('amount', 'Amount', 'trim|required|regex_match[/^[0-9]+,[0-9]+$/]');
-		$this->form_validation->set_rules('description', 'Description', 'trim');
+		$this->form_validation->set_rules('xDate', 'Date', 'required');
+		$this->form_validation->set_rules('amount', 'Amount', 'trim|required|regex_match[/^\d+(,\d{1,3})?$/]');
+		$this->form_validation->set_rules('description', 'Description', 'trim|required|max_length[255]');
 
         if ($this->form_validation->run() == FALSE) {
             //fail validation
@@ -25,9 +26,10 @@ class Main extends CI_Controller {
         }
 		else {
 			//pass validation
-            echo "Success<br>";
-			echo print_r($this->input->post('amount'))."<br>";
-			echo print_r($this->input->post('description'));
+			$amount = $this->input->post('amount');
+			$val = floatval(str_replace(',', '.', $amount));
+			echo "Success<br>Amount: " . $amount . " --> " . $val;
+			echo "<br>Date: " . $this->input->post('xDate');
         }
 	}
 
