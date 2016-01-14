@@ -15,25 +15,43 @@ class Main extends CI_Controller {
 	public function input() {
 		$this->load->model('model_expenses');
         
+		$data['persons'] = array(
+			'-SELECT-' => '-SELECT-',
+			'Απόστολος' => 'Απόστολος',
+			'Μαίρη' => 'Μαίρη',
+		);
+		
+		//fetch data from paymentmethods and categories tables
+		$data['paymentmethods'] = $this->model_expenses->get_paymentmethods();
+		$data['categories'] = $this->model_expenses->get_categories();
+
 		//set validation rules
 		$this->form_validation->set_rules('xDate', 'Date', 'required|callback_date_valid');
 		$this->form_validation->set_rules('amount', 'Amount', 'trim|required|regex_match[/^\d+(,\d{1,3})?$/]');
+		$this->form_validation->set_rules('person', 'Person', 'callback_combo_check');
 		$this->form_validation->set_rules('description', 'Description', 'trim|required|max_length[255]');
+		$this->form_validation->set_rules('payment', 'Payment by', 'callback_combo_check');
+		$this->form_validation->set_rules('category', 'Category', 'callback_combo_check');
 
         if ($this->form_validation->run() == FALSE) {
             //fail validation
-            $this->load->view('view_input');
+            $this->load->view('view_input', $data);
         }
 		else {
 			//pass validation
 			$amount = $this->input->post('amount');
 			$val = floatval(str_replace(',', '.', $amount));
-			echo "Success<br>Amount: " . $amount . " --> " . $val;
+			echo "Success";
 			echo "<br>Date: " . $this->input->post('xDate');
+			echo "<br>Amount: " . $amount . " --> " . $val;
+			echo "<br>Person: " . $this->input->post('person');
+			echo "<br>Description: " . $this->input->post('description');
+			echo "<br>Payment: " . $this->input->post('payment');
+			echo "<br>Category: " . $this->input->post('category');
         }
 	}
 
-	    //custom date validation function (except leap year)
+	//custom date validation function (except leap year)
     function date_valid($str)
     {
 		$month = substr($str,5,2);
@@ -55,6 +73,20 @@ class Main extends CI_Controller {
 			return TRUE;
 		}
     }
+
+	//custom validation function for dropdown input
+	function combo_check($str)
+	{
+		if ($str == '-SELECT-')
+		{
+			$this->form_validation->set_message('combo_check', 'The {field} field is required.');
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}
+	}
 
 	public function create() {
 		$data = array(

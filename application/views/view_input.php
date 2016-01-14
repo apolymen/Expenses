@@ -29,7 +29,10 @@
 		</p>
 		<p>
 			<label for="person">Person:</label>
-			<input type="text" name="person" id="person" value="<?php echo set_value('person'); ?>" />
+			<?php
+                $attributes = 'class="form-control" id="person"';
+                echo form_dropdown('person',$persons,set_value('person'),$attributes);?>
+			<span><?php echo form_error('person'); ?></span>
 		</p>
 		<p>
 			<label for="description">Description:</label>
@@ -38,11 +41,17 @@
 		</p>
 		<p>
 			<label for="payment">Payment by:</label>
-			<input type="text" name="payment" id="payment" value="<?php echo set_value('payment'); ?>" />
+			<?php
+                $attributes = 'class="form-control" id="payment"';
+                echo form_dropdown('payment',$paymentmethods,set_value('payment'),$attributes);?>
+			<span><?php echo form_error('payment'); ?></span>
 		</p>
 		<p>
 			<label for="category">Category:</label>
-			<input type="text" name="category" id="category" value="<?php echo set_value('category'); ?>" />
+			<?php
+                $attributes = 'class="form-control" id="category"';
+                echo form_dropdown('category',$categories,set_value('category'),$attributes);?>
+			<span><?php echo form_error('category'); ?></span>
 		</p>
 		<p>
 			<input type="submit" value="Submit" />
