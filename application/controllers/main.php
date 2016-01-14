@@ -16,7 +16,7 @@ class Main extends CI_Controller {
 		$this->load->model('model_expenses');
         
 		//set validation rules
-		$this->form_validation->set_rules('xDate', 'Date', 'required');
+		$this->form_validation->set_rules('xDate', 'Date', 'required|callback_date_valid');
 		$this->form_validation->set_rules('amount', 'Amount', 'trim|required|regex_match[/^\d+(,\d{1,3})?$/]');
 		$this->form_validation->set_rules('description', 'Description', 'trim|required|max_length[255]');
 
@@ -32,6 +32,29 @@ class Main extends CI_Controller {
 			echo "<br>Date: " . $this->input->post('xDate');
         }
 	}
+
+	    //custom date validation function (except leap year)
+    function date_valid($str)
+    {
+		$month = substr($str,5,2);
+		$day = substr($str,8,2);
+
+        if (!preg_match("/^2[0-1]\d\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/", $str)) {
+			$this->form_validation->set_message('date_valid', 'Date format should be yyyy-mm-dd');
+            return FALSE;
+		}
+		elseif ($month === "02" and $day >29) {
+			$this->form_validation->set_message('date_valid', 'Invalid date!');
+			return FALSE;
+		}
+		elseif ((($month === "04") or ($month === "06") or ($month === "09") or ($month === "11")) and $day >30) {
+			$this->form_validation->set_message('date_valid', 'Invalid date!');
+			return FALSE;
+		}
+		else {
+			return TRUE;
+		}
+    }
 
 	public function create() {
 		$data = array(

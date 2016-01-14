@@ -4,6 +4,11 @@
     <head>
         <meta charset="UTF-8">
         <title>Input</title>
+
+		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
 		<style type="text/css" media="screen">
 			   label {display: block;}
 		</style>
@@ -14,7 +19,7 @@
 
 		<p>
 			<label for="xDate">Date:</label>
-			<input type="text" name="xDate" id="xDate" placeholder="Input date" value="<?php echo set_value('xDate'); ?>" />
+			<input type="text" name="xDate" id="xDate" placeholder="Date (yyyy-mm-dd)" value="<?php echo set_value('xDate'); ?>" />
 			<span><?php echo form_error('xDate'); ?></span>
 		</p>
 		<p>
@@ -44,5 +49,16 @@
 		</p>
 		
 		<?php echo form_close(); ?>
+
+
+      <script type="text/javascript">
+			//load datepicker control onfocus
+			$(function () {
+				$("#xDate").datepicker(
+					{ dateFormat: "yy-mm-dd" }
+				);
+			});
+		</script>
+
     </body>
 </html>
