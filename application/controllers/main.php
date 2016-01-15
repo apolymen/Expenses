@@ -14,13 +14,13 @@ class Main extends CI_Controller {
 
 	public function input() {
 		$this->load->model('model_expenses');
-        
+
 		$data['persons'] = array(
 			'-SELECT-' => '-SELECT-',
 			'Απόστολος' => 'Απόστολος',
 			'Μαίρη' => 'Μαίρη',
 		);
-		
+
 		//fetch data from paymentmethods and categories tables
 		$data['paymentmethods'] = $this->model_expenses->get_paymentmethods();
 		$data['categories'] = $this->model_expenses->get_categories();
@@ -33,22 +33,25 @@ class Main extends CI_Controller {
 		$this->form_validation->set_rules('payment', 'Payment by', 'callback_combo_check');
 		$this->form_validation->set_rules('category', 'Category', 'callback_combo_check');
 
-        if ($this->form_validation->run() == FALSE) {
-            //fail validation
+        //check form validation
+		if ($this->form_validation->run() == FALSE) {
+            //failed validation, reload view. Next line also used for initial view load.
             $this->load->view('view_input', $data);
         }
 		else {
-			//pass validation
-			$amount = $this->input->post('amount');
-			$val = floatval(str_replace(',', '.', $amount));
-			echo "Success";
-			echo "<br>Date: " . $this->input->post('xDate');
-			echo "<br>Amount: " . $amount . " --> " . $val;
-			echo "<br>Person: " . $this->input->post('person');
-			echo "<br>Description: " . $this->input->post('description');
-			echo "<br>Payment: " . $this->input->post('payment');
-			echo "<br>Category: " . $this->input->post('category');
-        }
+			//passed validation, insert record to database
+			$data = array(
+				'xDate' => $this->input->post('date'),
+				'Amount' => floatval(str_replace(',', '.', $this->input->post('amount'))),
+				'Person' => $this->input->post('person'),
+				'Description' => $this->input->post('description'),
+				'method_id' => $this->input->post('payment'),
+				'category_id' => $this->input->post('category')
+			);
+			echo 'Data array created<br>';
+			print_r($data);
+			//$this->model_expenses->add_record($data);
+		}
 	}
 
 	//custom date validation function (except leap year)
@@ -88,19 +91,6 @@ class Main extends CI_Controller {
 		}
 	}
 
-	public function create() {
-		$data = array(
-			'xDate' => $this->input->post('date'),
-			'Amount' => $this->input->post('amount'),
-			'Person' => $this->input->post('person'),
-			'Description' => $this->input->post('description'),
-			'method_id' => $this->input->post('payment'),
-			'category_id' => $this->input->post('category')
-		);
-		echo 'Data array created<br>';
-		print_r($data);
-		//$this->model_expenses->add_record($data);
-	}
 
 	public function output() {
 		$this->load->model('model_expenses');
