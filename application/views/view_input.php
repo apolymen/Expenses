@@ -5,9 +5,8 @@
         <meta charset="UTF-8">
         <title>Input</title>
 
-		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 
 		<style type="text/css" media="screen">
 			   label {display: block;}
@@ -55,12 +54,20 @@
 		</p>
 		<p>
 			<input type="submit" value="Submit" />
+			<input type="reset" value="Reset" />
 		</p>
 
 		<?php echo form_close(); ?>
 
+		<button onclick="location.href='/expenses/'">Main page</button>
+		<?php echo $this->session->flashdata('msg'); ?>
 
-      <script type="text/javascript">
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+		<script type="text/javascript">
 			//load datepicker control onfocus
 			$(function () {
 				$("#xDate").datepicker(

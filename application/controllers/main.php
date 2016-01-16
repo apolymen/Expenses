@@ -5,6 +5,7 @@ class Main extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
+//		$this->session->keep_flashdata('msg');
 	}
 
 	public function index() {
@@ -48,9 +49,14 @@ class Main extends CI_Controller {
 				'method_id' => $this->input->post('payment'),
 				'category_id' => $this->input->post('category')
 			);
+			echo base_url().'<br>';
 			echo 'Data array created<br>';
 			print_r($data);
 			//$this->model_expenses->add_record($data);
+
+			//display success message
+			$this->session->set_flashdata('msg', '<br>Record added to Database!!!');
+			redirect('input');
 		}
 	}
 
