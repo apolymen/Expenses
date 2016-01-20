@@ -42,20 +42,20 @@ class Main extends CI_Controller {
 		else {
 			//passed validation, insert record to database
 			$data = array(
-				'xDate' => $this->input->post('date'),
+				'xDate' => $this->input->post('xDate'),
 				'Amount' => floatval(str_replace(',', '.', $this->input->post('amount'))),
 				'Person' => $this->input->post('person'),
 				'Description' => $this->input->post('description'),
 				'method_id' => $this->input->post('payment'),
 				'category_id' => $this->input->post('category')
 			);
-			echo base_url().'<br>';
-			echo 'Data array created<br>';
-			print_r($data);
-			//$this->model_expenses->add_record($data);
+			//echo base_url().'<br>';
+			//echo 'Data array created<br>';
+			//print_r($data);
+			$this->model_expenses->add_record($data);
 
 			//display success message
-			$this->session->set_flashdata('msg', '<br>Record added to Database!!!');
+			$this->session->set_flashdata('msg', '<div class="alert alert-success text-center">Record added to Database!!!</div>');
 			redirect('input');
 		}
 	}
@@ -97,7 +97,11 @@ class Main extends CI_Controller {
 		}
 	}
 
-
+	public function reset_form() {
+		$data = [];
+		redirect('input');
+	}
+	
 	public function output() {
 		$this->load->model('model_expenses');
 		$results = $this->model_expenses->get_all_records();

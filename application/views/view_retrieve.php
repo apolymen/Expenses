@@ -6,9 +6,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Expenses Home</title>
 
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	<title>Expenses Home</title>
 
 	<style type="text/css">
 	p.footer {
@@ -17,15 +17,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		padding: 0 10px 0 10px;
 		margin: 20px 0 0 0;
 	}
+	.top-buffer {
+		margin-top:10px;
+	}
 	</style>
 
 </head>
 <body>
 
-    <div class="container" id="body">
+    <div class="container">
 
-	<h3>Expenses</h3>
-    <h4>Total entries: <?=$rows?></h4>
+	<div class="row top-buffer">
+	<div class="col-xs-1">
+		 <button type="button" class="btn btn-primary btn-lg" onclick="location.href='/expenses/input'">Input</button>
+	</div>
+	</div>
+	<div class="top-buffer"></div>
+
+    <p style="font-size: 14px;">Total entries: <?=$rows?></p>
+	
 	<table class="table table-bordered table-condensed table-striped">
 	    <thead>
 	      <tr>
