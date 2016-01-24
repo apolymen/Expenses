@@ -22,7 +22,7 @@
 		<div class="row">
 			<div class="col-sm-offset-3 col-lg-6 col-sm-6 well">
 			<?php
-			$attributes = array("class" => "form-horizontal", "id" => "inputform", "name" => "inputform", "autocomplete" => "off");
+			$attributes = array("class" => "form-horizontal", "id" => "editform", "name" => "editform", "autocomplete" => "off");
 			echo form_open('edit/' . $exp_id, $attributes); ?>
 			<fieldset>
 
@@ -101,7 +101,7 @@
 			<div class="form-group">
 			<div class="col-sm-offset-4 col-lg-8 col-sm-8">
 				<input type="submit" class="btn btn-success" value="Update" />
-				<input type="button" class="btn btn-danger" onclick="location.href='/expenses/main/reset_form	'" value="Delete" />
+				<input type="button" class="btn btn-danger" onclick="mydelete()" value="Delete" />
 				<input type="button" class="btn btn-primary pull-right" onclick="location.href='/expenses/'" value="Main page" />
 			</div>
 			</div>
@@ -119,13 +119,21 @@
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 
-	<script type="text/javascript">
+	<script>
 		//load datepicker control onfocus
 		$(function () {
 			$("#xDate").datepicker(
 				{ dateFormat: "yy-mm-dd" }
 			);
 		});
+		function mydelete() {
+			var r = confirm("Are you sure you want to delete this entry?");
+			if (r == true) {
+				window.location.href = "/expenses/main/delete/" + <?=$exp_id?>;
+			} else {
+				window.location.reload();
+			}
+		}
 	</script>
 </body>
 </html>

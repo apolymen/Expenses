@@ -45,6 +45,55 @@ class Main extends CI_Controller {
 		}
 	}
 
+	public function edit($exp_id) {
+		$data = $this->prepare_dropdowns();
+		$result = $this->model_expenses->get_record_by_id($exp_id);
+		$data['exp_id'] = $exp_id;
+		$data['row'] = $result->row();
+		//$this->load->view('view_edit', $data);
+
+		// Check form validation
+		if ($this->form_validation->run() == FALSE) {
+			//failed validation, reload view. Also used for initial view load.
+			$this->load->view('view_edit', $data);
+		}
+		else {
+			// Passed validation, insert record to database
+			$data = array(
+				'xDate' => $this->input->post('xDate'),
+				'Amount' => $this->input->post('amount'),
+				'Person' => $this->input->post('person'),
+				'Description' => $this->input->post('description'),
+				'method_id' => $this->input->post('payment'),
+				'category_id' => $this->input->post('category')
+			);
+			$this->model_expenses->update_record($exp_id, $data);
+
+			// Display success message
+			$this->session->set_flashdata('msg', '<div class="alert alert-success text-center"><a href="#" class="close" data-dismiss="alert">&times;</a><strong>Record updated in database!</strong></div>');
+			redirect('edit/' . $exp_id);
+		}
+	}
+
+	public function delete($exp_id) {
+		$this->model_expenses->delete_record($exp_id);
+		redirect('/');
+	}
+
+	public function prepare_dropdowns() {
+		// Prepare persons static dropdown
+		$temp['persons'] = array(
+			'-SELECT-' => '-SELECT-',
+			'Απόστολος' => 'Απόστολος',
+			'Μαίρη' => 'Μαίρη',
+		);
+		// Fetch data from paymentmethods and categories tables
+		$temp['paymentmethods'] = $this->model_expenses->get_paymentmethods();
+		$temp['categories'] = $this->model_expenses->get_categories();
+		
+		return $temp;
+	}
+
 	// Custom date validation function (except leap year)
 	// Validation not needed if date field is readonly
 	function date_valid($str)
@@ -87,48 +136,5 @@ class Main extends CI_Controller {
 		$data = [];
 		redirect('input');
 	}
-	
-	public function edit($exp_id) {
-		$data = $this->prepare_dropdowns();
-		$result = $this->model_expenses->get_record_by_id($exp_id);
-		$data['exp_id'] = $exp_id;
-		$data['row'] = $result->row();
-		//$this->load->view('view_edit', $data);
 
-		// Check form validation
-		if ($this->form_validation->run() == FALSE) {
-			//failed validation, reload view. Also used for initial view load.
-			$this->load->view('view_edit', $data);
-		}
-		else {
-			// Passed validation, insert record to database
-			$data = array(
-				'xDate' => $this->input->post('xDate'),
-				'Amount' => $this->input->post('amount'),
-				'Person' => $this->input->post('person'),
-				'Description' => $this->input->post('description'),
-				'method_id' => $this->input->post('payment'),
-				'category_id' => $this->input->post('category')
-			);
-			$this->model_expenses->update_record($exp_id, $data);
-
-			// Display success message
-			$this->session->set_flashdata('msg', '<div class="alert alert-success text-center"><a href="#" class="close" data-dismiss="alert">&times;</a><strong>Record updated in database!</strong></div>');
-			redirect('edit/' . $exp_id);
-		}
-	}
-
-	public function prepare_dropdowns() {
-		// Prepare persons static dropdown
-		$temp['persons'] = array(
-			'-SELECT-' => '-SELECT-',
-			'Απόστολος' => 'Απόστολος',
-			'Μαίρη' => 'Μαίρη',
-		);
-		// Fetch data from paymentmethods and categories tables
-		$temp['paymentmethods'] = $this->model_expenses->get_paymentmethods();
-		$temp['categories'] = $this->model_expenses->get_categories();
-		
-		return $temp;
-	}
 }

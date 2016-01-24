@@ -42,6 +42,11 @@ class Model_expenses extends CI_Model {
 		$this->db->update('expdata', $data);
 	}
 
+	public function delete_record($id) {
+		$this->db->where('id', $id);
+		$this->db->delete('expdata');
+	}
+
 	// Get paymentmethods table to populate the "Payment by" dropdown
     function get_paymentmethods()     
     { 
