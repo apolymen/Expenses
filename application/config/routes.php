@@ -54,3 +54,4 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['input'] = 'main/input';
 $route['output'] = 'main/output';
+$route['edit/(:num)'] = 'main/edit/$1';

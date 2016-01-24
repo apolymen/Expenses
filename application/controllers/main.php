@@ -5,70 +5,56 @@ class Main extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
-//		$this->session->keep_flashdata('msg');
+		$this->load->model('model_expenses');
 	}
 
 	public function index() {
-		//$this->load->view('view_mainmenu');
 		$this->output();
 	}
 
+	public function output() {
+		$results = $this->model_expenses->get_all_records();
+		$data['expenses'] = $results->result();
+		$data['rows'] = $results->num_rows();
+		$this->load->view('view_retrieve', $data);
+	}
+
 	public function input() {
-		$this->load->model('model_expenses');
+		$data = $this->prepare_dropdowns();
 
-		$data['persons'] = array(
-			'-SELECT-' => '-SELECT-',
-			'Απόστολος' => 'Απόστολος',
-			'Μαίρη' => 'Μαίρη',
-		);
-
-		//fetch data from paymentmethods and categories tables
-		$data['paymentmethods'] = $this->model_expenses->get_paymentmethods();
-		$data['categories'] = $this->model_expenses->get_categories();
-
-		//set validation rules
-		$this->form_validation->set_rules('xDate', 'Date', 'required|callback_date_valid');
-		$this->form_validation->set_rules('amount', 'Amount', 'trim|required|regex_match[/^\d+(,\d{1,3})?$/]');
-		$this->form_validation->set_rules('person', 'Person', 'callback_combo_check');
-		$this->form_validation->set_rules('description', 'Description', 'trim|required|max_length[255]');
-		$this->form_validation->set_rules('payment', 'Payment by', 'callback_combo_check');
-		$this->form_validation->set_rules('category', 'Category', 'callback_combo_check');
-
-        //check form validation
+		// Check form validation
 		if ($this->form_validation->run() == FALSE) {
-            //failed validation, reload view. Next line also used for initial view load.
-            $this->load->view('view_input', $data);
-        }
+			//failed validation, reload view. Also used for initial view load.
+			$this->load->view('view_input', $data);
+		}
 		else {
-			//passed validation, insert record to database
+			// Passed validation, insert record to database
 			$data = array(
 				'xDate' => $this->input->post('xDate'),
-				'Amount' => floatval(str_replace(',', '.', $this->input->post('amount'))),
+				'Amount' => $this->input->post('amount'),
 				'Person' => $this->input->post('person'),
 				'Description' => $this->input->post('description'),
 				'method_id' => $this->input->post('payment'),
 				'category_id' => $this->input->post('category')
 			);
-			//echo base_url().'<br>';
-			//echo 'Data array created<br>';
-			//print_r($data);
 			$this->model_expenses->add_record($data);
 
-			//display success message
-			$this->session->set_flashdata('msg', '<div class="alert alert-success text-center">Record added to Database!!!</div>');
+			// Display success message
+			$this->session->set_flashdata('msg', '<div class="alert alert-success text-center"><a href="#" class="close" data-dismiss="alert">&times;</a><strong>Record added to database!</strong></div>');
 			redirect('input');
 		}
 	}
 
-	//custom date validation function (except leap year)
-    function date_valid($str)
-    {
+	// Custom date validation function (except leap year)
+	// Validation not needed if date field is readonly
+	function date_valid($str)
+	{
 		$month = substr($str,5,2);
 		$day = substr($str,8,2);
 
-        if (!preg_match("/^2[0-1]\d\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/", $str)) {
+		if (!preg_match("/^2[0-1]\d\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/", $str)) {
 			$this->form_validation->set_message('date_valid', 'Date format should be yyyy-mm-dd');
-            return FALSE;
+			return FALSE;
 		}
 		elseif ($month === "02" and $day >29) {
 			$this->form_validation->set_message('date_valid', 'Invalid date!');
@@ -81,9 +67,9 @@ class Main extends CI_Controller {
 		else {
 			return TRUE;
 		}
-    }
+	}
 
-	//custom validation function for dropdown input
+	// Custom validation function for dropdown input
 	function combo_check($str)
 	{
 		if ($str == '-SELECT-')
@@ -102,12 +88,47 @@ class Main extends CI_Controller {
 		redirect('input');
 	}
 	
-	public function output() {
-		$this->load->model('model_expenses');
-		$results = $this->model_expenses->get_all_records();
-		$data['expenses'] = $results->result();
-		$data['rows'] = $results->num_rows();
-		$this->load->view('view_retrieve', $data);
+	public function edit($exp_id) {
+		$data = $this->prepare_dropdowns();
+		$result = $this->model_expenses->get_record_by_id($exp_id);
+		$data['exp_id'] = $exp_id;
+		$data['row'] = $result->row();
+		//$this->load->view('view_edit', $data);
+
+		// Check form validation
+		if ($this->form_validation->run() == FALSE) {
+			//failed validation, reload view. Also used for initial view load.
+			$this->load->view('view_edit', $data);
+		}
+		else {
+			// Passed validation, insert record to database
+			$data = array(
+				'xDate' => $this->input->post('xDate'),
+				'Amount' => $this->input->post('amount'),
+				'Person' => $this->input->post('person'),
+				'Description' => $this->input->post('description'),
+				'method_id' => $this->input->post('payment'),
+				'category_id' => $this->input->post('category')
+			);
+			$this->model_expenses->update_record($exp_id, $data);
+
+			// Display success message
+			$this->session->set_flashdata('msg', '<div class="alert alert-success text-center"><a href="#" class="close" data-dismiss="alert">&times;</a><strong>Record updated in database!</strong></div>');
+			redirect('edit/' . $exp_id);
+		}
 	}
 
+	public function prepare_dropdowns() {
+		// Prepare persons static dropdown
+		$temp['persons'] = array(
+			'-SELECT-' => '-SELECT-',
+			'Απόστολος' => 'Απόστολος',
+			'Μαίρη' => 'Μαίρη',
+		);
+		// Fetch data from paymentmethods and categories tables
+		$temp['paymentmethods'] = $this->model_expenses->get_paymentmethods();
+		$temp['categories'] = $this->model_expenses->get_categories();
+		
+		return $temp;
+	}
 }

@@ -19,6 +19,20 @@ class Model_expenses extends CI_Model {
 		}
 	}
 	
+	public function get_record_by_id($exp_id) {
+		$query = $this->db->select('expdata.id, expdata.xDate, expdata.amount, expdata.person, expdata.description')
+						->select('method_id AS payment, category_id AS category')
+						->from('expdata')
+						->where('expdata.id', $exp_id)
+						->get();
+		if ($query->num_rows() > 0) {
+			return $query;
+		}
+		else {
+			return NULL;
+		}
+	}
+
 	public function add_record($data) {
 		$this->db->insert('expdata', $data);
 	}
@@ -28,7 +42,7 @@ class Model_expenses extends CI_Model {
 		$this->db->update('expdata', $data);
 	}
 
-	//get paymentmethods table to populate the "Payment by" dropdown
+	// Get paymentmethods table to populate the "Payment by" dropdown
     function get_paymentmethods()     
     { 
         $this->db->select('id');
@@ -49,7 +63,7 @@ class Model_expenses extends CI_Model {
         return $paymentmethods_result = array_combine($pay_id, $pay_name);
     }
 
-	//get categories table to populate the Category dropdown
+	// Get categories table to populate the Category dropdown
     function get_categories()     
     { 
         $this->db->select('id');

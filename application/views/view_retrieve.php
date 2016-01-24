@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	    <tbody>
 
 	    <?php foreach ($expenses as $row): ?>
-		<tr> <td><?=$row->Date?></td> <td><?=$row->Amount?></td> <td><?=$row->Person?></td> <td><?=$row->Description?></td> <td><?=$row->Method?></td> <td><?=$row->Category?></td> </tr>
+			<tr> <td class="hidden"><?=$row->id?></td> <td style="white-space: nowrap;"><?=implode('-', array_reverse(explode('-', $row->Date)))?></td> <td><?=number_format($row->Amount,2)?></td> <td><?=$row->Person?></td> <td><?=$row->Description?></td> <td><?=$row->Method?></td> <td><?=$row->Category?></td> </tr>
 	    <?php endforeach; ?>
 
 	    </tbody>
@@ -59,8 +59,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+	<script>
+/*
+	$(document).ready(function() {
+		$('#tableId').on('click','tbody tr', function () {
+		   alert($(this).children('td').html());
+		});
+	});
+*/
+	$(document).ready(function() {
+		$('tbody tr').click( function() {
+			var r = confirm("Edit record " + $(this).children('td').html() + "?");
+			if (r == true) {
+				window.location.href = "/expenses/main/edit/" + $(this).children('td').html();
+			}
+		});
+	});
+	</script>
 
 </body>
 </html>
