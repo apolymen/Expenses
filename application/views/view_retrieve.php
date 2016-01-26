@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="top-buffer"></div>
 
     <p style="font-size: 14px;">Total entries: <?=$rows?></p>
-	
+
 	<table class="table table-bordered table-condensed table-striped">
 	    <thead>
 	      <tr>
@@ -61,23 +61,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script src="<?php echo base_url(); ?>assets/js/bootbox.min.js"></script>
 
 	<script>
-/*
-	$(document).ready(function() {
-		$('#tableId').on('click','tbody tr', function () {
-		   alert($(this).children('td').html());
-		});
-	});
-*/
+
 	$(document).ready(function() {
 		$('tbody tr').click( function() {
-			var r = confirm("Edit record " + $(this).children('td').html() + "?");
-			if (r == true) {
+			var id = $(this).children('td').html();
+			bootbox.dialog( {
+				title: 'Confirm',
+				message: 'Are you sure?',
+				size: 'small',
+				animate: 'false',
+				onEscape: 'true',
+				buttons: {
+					OK: {
+						label: 'OK',
+						className: "btn-primary",
+						callback: function() {
+							window.location.href = "/expenses/main/edit/" + id;
+						}
+					},
+					Cancel: {
+						label: 'Cancel',
+						className: "btn-default",
+						callback: function() {
+							//nothing to do
+						}
+					}
+				}
+			});
+		});
+	});
+/*
+	$(document).ready(function() {
+		$('tbody tr').click( function() {
+			var r = confirm("Edit this record?");
+			if (r === true) {
 				window.location.href = "/expenses/main/edit/" + $(this).children('td').html();
 			}
 		});
 	});
+*/
 	</script>
 
 </body>
