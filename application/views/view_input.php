@@ -7,8 +7,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Input</title>
 
-		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css">
+		<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/jquery-ui.min.css">
 
 		<style type="text/css">
 			.colbox {
@@ -105,7 +105,7 @@
 				<input type="button" class="btn btn-primary pull-right" onclick="location.href='/expenses/'" value="Main page" />
 			</div>
 			</div>
-			
+
 			</fieldset>
 			<?php echo form_close(); ?>
 
@@ -115,9 +115,9 @@
 		</div>
 	</div>
 
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+	<script src="<?php echo base_url(); ?>assets/js/jquery-2.2.0.min.js"></script>
+	<script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
+	<script src="<?php echo base_url(); ?>assets/js/jquery-ui.min.js"></script>
 
 	<script>
 		//load datepicker control onfocus
