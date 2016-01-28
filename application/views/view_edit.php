@@ -118,6 +118,7 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+	<script src="<?php echo base_url(); ?>assets/js/bootbox.min.js"></script>
 
 	<script>
 		//load datepicker control onfocus
@@ -127,12 +128,29 @@
 			);
 		});
 		function mydelete() {
-			var r = confirm("Are you sure you want to delete this entry?");
-			if (r == true) {
-				window.location.href = "/expenses/main/delete/" + <?=$exp_id?>;
-			} else {
-				window.location.reload();
-			}
+			bootbox.dialog( {
+				title: 'Attention',
+				message: 'Are you sure you want to delete this entry?',
+				size: 'small',
+				animate: 'false',
+				onEscape: 'true',
+				buttons: {
+					OK: {
+						label: 'OK',
+						className: "btn-danger",
+						callback: function() {
+							window.location.href = "/expenses/main/delete/" + <?=$exp_id?>;
+						}
+					},
+					Cancel: {
+						label: 'Cancel',
+						className: "btn-default",
+						callback: function() {
+							window.location.reload();
+						}
+					}
+				}
+			});
 		}
 	</script>
 </body>

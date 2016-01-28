@@ -64,13 +64,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script src="<?php echo base_url(); ?>assets/js/bootbox.min.js"></script>
 
 	<script>
-
 	$(document).ready(function() {
 		$('tbody tr').click( function() {
 			var id = $(this).children('td').html();
 			bootbox.dialog( {
 				title: 'Confirm',
-				message: 'Are you sure?',
+				message: 'Edit this entry?',
 				size: 'small',
 				animate: 'false',
 				onEscape: 'true',
