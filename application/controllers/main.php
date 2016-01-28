@@ -13,9 +13,44 @@ class Main extends CI_Controller {
 	}
 
 	public function output() {
-		$results = $this->model_expenses->get_all_records();
+		//pagination settings
+		$config['base_url'] = site_url('output');
+		$config['per_page'] = "4";
+		$config['uri_segment'] = 2;
+		$config['use_page_numbers'] = TRUE;
+
+		//config for bootstrap pagination class integration
+		$config['full_tag_open'] = '<ul class="pagination">';
+		$config['full_tag_close'] = '</ul>';
+		$config['first_link'] = false;
+		$config['last_link'] = false;
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		$config['prev_link'] = '&laquo';
+		$config['prev_tag_open'] = '<li class="prev">';
+		$config['prev_tag_close'] = '</li>';
+		$config['next_link'] = '&raquo';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li class="active"><a href="#">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+
+		$data['rows'] = $this->db->count_all('expdata');
+		$config['total_rows'] = $data['rows'];
+		$pages = $config['total_rows'] / $config['per_page'];
+		$config['num_links'] = floor($pages);
+
+		$data['currentpage'] = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+		$results = $this->model_expenses->get_records($data['currentpage'], $config['per_page']);
 		$data['expenses'] = $results->result();
-		$data['rows'] = $results->num_rows();
+
+		$this->pagination->initialize($config);
+		$data['pagination'] = $this->pagination->create_links();
+
 		$this->load->view('view_retrieve', $data);
 	}
 
@@ -90,7 +125,7 @@ class Main extends CI_Controller {
 		// Fetch data from paymentmethods and categories tables
 		$temp['paymentmethods'] = $this->model_expenses->get_paymentmethods();
 		$temp['categories'] = $this->model_expenses->get_categories();
-		
+
 		return $temp;
 	}
 

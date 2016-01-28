@@ -8,8 +8,16 @@ class Model_expenses extends CI_Model {
         $this->load->database();
 	}
 
-	public function get_all_records() {
-		$query = $this->db->get('view_all');
+	public function get_records($start, $limit) {
+//		$query = $this->db->get('view_all');
+		$query = $this->db->select ('expdata.id AS id, xDate AS Date, Amount AS Amount, Person AS Person, Description AS Description')
+						->select ('paymentmethods.Method AS Method')
+						->select ('categories.Name AS Category')
+						->join ('paymentmethods',	'expdata.method_id = paymentmethods.id')
+						->join ('categories', 'expdata.category_id = categories.id')
+						->order_by ('xDate ASC, id ASC')
+						->limit($limit, $start)
+						->get('expdata');
 
 		if ($query->num_rows() > 0) {
 			return $query;
@@ -18,13 +26,12 @@ class Model_expenses extends CI_Model {
 			return NULL;
 		}
 	}
-	
+
 	public function get_record_by_id($exp_id) {
 		$query = $this->db->select('expdata.id, expdata.xDate, expdata.amount, expdata.person, expdata.description')
 						->select('method_id AS payment, category_id AS category')
-						->from('expdata')
 						->where('expdata.id', $exp_id)
-						->get();
+						->get('expdata');
 		if ($query->num_rows() > 0) {
 			return $query;
 		}
@@ -48,8 +55,8 @@ class Model_expenses extends CI_Model {
 	}
 
 	// Get paymentmethods table to populate the "Payment by" dropdown
-    function get_paymentmethods()     
-    { 
+    function get_paymentmethods()
+    {
         $this->db->select('id');
         $this->db->select('Method');
         $this->db->from('paymentmethods');
@@ -69,8 +76,8 @@ class Model_expenses extends CI_Model {
     }
 
 	// Get categories table to populate the Category dropdown
-    function get_categories()     
-    { 
+    function get_categories()
+    {
         $this->db->select('id');
         $this->db->select('Name');
         $this->db->from('categories');
