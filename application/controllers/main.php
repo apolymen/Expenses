@@ -15,15 +15,15 @@ class Main extends CI_Controller {
 	public function output() {
 		//pagination settings
 		$config['base_url'] = site_url('output');
-		$config['per_page'] = "4";
+		$config['per_page'] = "15";
 		$config['uri_segment'] = 2;
 		$config['use_page_numbers'] = TRUE;
 
 		//config for bootstrap pagination class integration
 		$config['full_tag_open'] = '<ul class="pagination">';
 		$config['full_tag_close'] = '</ul>';
-		$config['first_link'] = false;
-		$config['last_link'] = false;
+		$config['first_link'] = "First";
+		$config['last_link'] = "Last";
 		$config['first_tag_open'] = '<li>';
 		$config['first_tag_close'] = '</li>';
 		$config['prev_link'] = '&laquo';
@@ -41,8 +41,9 @@ class Main extends CI_Controller {
 
 		$data['rows'] = $this->db->count_all('expdata');
 		$config['total_rows'] = $data['rows'];
-		$pages = $config['total_rows'] / $config['per_page'];
-		$config['num_links'] = floor($pages);
+//		$pages = $config['total_rows'] / $config['per_page'];
+//		$config['num_links'] = floor($pages);
+		$config['num_links'] = 2;
 
 		$data['currentpage'] = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
 		$results = $this->model_expenses->get_records($data['currentpage'], $config['per_page']);
