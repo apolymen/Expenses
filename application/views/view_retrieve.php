@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Expenses Home</title>
 
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css">
 
 	<style type="text/css">
 	p.footer {
@@ -56,11 +56,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	    </tbody>
 	</table>
 
+	<div class="row">
+		<div class="col-md-12">
+			<?php echo $pagination; ?>
+		</div>
+	</div>
+
     <p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
     </div>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/jquery-2.2.0.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
 	<script src="<?php echo base_url(); ?>assets/js/bootbox.min.js"></script>
 
 	<script>
