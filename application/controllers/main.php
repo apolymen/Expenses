@@ -17,7 +17,7 @@ class Main extends CI_Controller {
 		$config['base_url'] = site_url('output');
 		$config['per_page'] = "15";
 		$config['uri_segment'] = 2;
-		$config['use_page_numbers'] = TRUE;
+		$config['use_page_numbers'] = True;
 
 		//config for bootstrap pagination class integration
 		$config['full_tag_open'] = '<ul class="pagination">';
@@ -46,7 +46,7 @@ class Main extends CI_Controller {
 		$config['num_links'] = 2;
 
 		$data['currentpage'] = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-		$results = $this->model_expenses->get_records($data['currentpage'], $config['per_page']);
+		$results = $this->model_expenses->get_records(max(0,($data['currentpage']-1))*$config['per_page'], $config['per_page']);
 		$data['expenses'] = $results->result();
 
 		$this->pagination->initialize($config);
