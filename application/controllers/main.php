@@ -122,6 +122,7 @@ class Main extends CI_Controller {
 			'-SELECT-' => '-SELECT-',
 			'Απόστολος' => 'Απόστολος',
 			'Μαίρη' => 'Μαίρη',
+			'Ελεάνα' => 'Ελεάνα'
 		);
 		// Fetch data from paymentmethods and categories tables
 		$temp['paymentmethods'] = $this->model_expenses->get_paymentmethods();
