@@ -10,7 +10,7 @@ $config = array(
 	array(
 			'field' => 'amount',
 			'label' => 'Amount',
-			'rules' => 'trim|required|greater_than[0]'
+			'rules' => 'trim|required'
 	),
 	array(
 			'field' => 'person',
