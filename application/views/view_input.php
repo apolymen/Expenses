@@ -102,7 +102,7 @@
 			<div class="col-sm-offset-4 col-lg-8 col-sm-8">
 				<input type="submit" class="btn btn-success" value="Submit" />
 				<input type="button" class="btn btn-danger" onclick="location.href='/expenses/main/reset_form	'" value="Reset" />
-				<input type="button" class="btn btn-primary pull-right" onclick="location.href='/expenses/'" value="Main page" />
+				<input type="button" class="btn btn-primary pull-right" onclick="location.href='/expenses/main/last_page'" value="Main page" />
 			</div>
 			</div>
 

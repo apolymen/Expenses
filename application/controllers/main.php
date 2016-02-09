@@ -15,7 +15,7 @@ class Main extends CI_Controller {
 	public function output() {
 		//pagination settings
 		$config['base_url'] = site_url('output');
-		$config['per_page'] = "15";
+		$config['per_page'] = $this->config->item('per_page'); //defined in main config
 		$config['uri_segment'] = 2;
 		$config['use_page_numbers'] = True;
 
@@ -41,8 +41,7 @@ class Main extends CI_Controller {
 
 		$data['rows'] = $this->db->count_all('expdata');
 		$config['total_rows'] = $data['rows'];
-//		$pages = $config['total_rows'] / $config['per_page'];
-//		$config['num_links'] = floor($pages);
+		$data['per_page'] = $config['per_page'];
 		$config['num_links'] = 2;
 
 		$data['currentpage'] = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
@@ -172,6 +171,11 @@ class Main extends CI_Controller {
 	public function reset_form() {
 		$data = [];
 		redirect('input');
+	}
+	
+	public function last_page() {
+		$last = ceil($this->db->count_all('expdata') / $this->config->item('per_page'));
+		redirect('output/' . $last);
 	}
 
 }
