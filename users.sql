@@ -1,5 +1,0 @@
-# Privileges for `exp_u`@`%`
-
-GRANT USAGE ON *.* TO 'exp_u'@'%' IDENTIFIED BY PASSWORD '*AB4A103B813009E27D93A1B1DC31690715171E33';
-
-GRANT ALL PRIVILEGES ON `expenses`.* TO 'exp_u'@'%';

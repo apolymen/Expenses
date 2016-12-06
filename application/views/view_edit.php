@@ -102,7 +102,7 @@
 			<div class="col-sm-offset-4 col-lg-8 col-sm-8">
 				<input type="submit" class="btn btn-success" value="Update" />
 				<input type="button" class="btn btn-danger" onclick="mydelete()" value="Delete" />
-				<input type="button" class="btn btn-primary pull-right" onclick="location.href='/expenses/main/last_page'" value="Main page" />
+				<input type="button" class="btn btn-primary pull-right" onclick="location.href='<?php echo base_url(); ?>main/last_page'" value="Main page" />
 			</div>
 			</div>
 
@@ -139,7 +139,7 @@
 						label: 'OK',
 						className: "btn-danger",
 						callback: function() {
-							window.location.href = "/expenses/main/delete/" + <?=$exp_id?>;
+							window.location.href = "<?php echo base_url(); ?>main/delete/" + <?=$exp_id?>;
 						}
 					},
 					Cancel: {

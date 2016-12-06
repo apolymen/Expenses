@@ -29,7 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<div class="row top-buffer">
 	<div class="col-xs-1">
-		 <button type="button" class="btn btn-primary btn-lg" onclick="location.href='/expenses/input'">Input</button>
+		 <button type="button" class="btn btn-primary btn-lg" onclick="location.href='<?php echo base_url(); ?>input'">Input</button>
 	</div>
 	</div>
 	<div class="top-buffer"></div>
@@ -84,7 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						label: 'OK',
 						className: "btn-primary",
 						callback: function() {
-							window.location.href = "/expenses/main/edit/" + id;
+							window.location.href = "<?php echo base_url(); ?>edit/" + id;
 						}
 					},
 					Cancel: {
