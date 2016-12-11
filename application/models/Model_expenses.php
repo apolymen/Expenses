@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+// First letter of Model class and corresponding filename must be capital!
 class Model_expenses extends CI_Model {
 
 	public function __construct() {
