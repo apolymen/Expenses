@@ -27,8 +27,9 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 *.sublime-project
 
 # CI ignore
-*/config/development/
 */logs/log-*.php
 */logs/!index.html
 */cache/*
 */cache/!index.html
+/application/config/production/
+/application/config/development/
