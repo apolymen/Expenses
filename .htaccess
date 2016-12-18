@@ -3,14 +3,19 @@
 RewriteEngine on
 
 #RewriteBase /expenses/
+RewriteBase /
+ 
+# Store the current location in an environment variable CWD and use it where needed
+RewriteCond $0#%{REQUEST_URI} ([^#]*)#(.*)\1$
+RewriteRule ^.*$ - [E=CWD:%2]
 
 # Hide the application and system directories by redirecting the request to index.php
-RewriteRule ^(application|system|\.svn) index.php/$1 [L]
+RewriteRule ^(application|system|\.svn) %{ENV:CWD}index.php/$1 [L]
 
-RewriteCond $1 !^(index\.php|assets|resources|images|robots\.txt)
+# Remove index.php from application URLs
+RewriteCond $1 !^(index\.php|assets)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php/$1 [L]
+RewriteRule ^(.*)$ %{ENV:CWD}index.php/$1 [L]
 
 </IfModule>
-
