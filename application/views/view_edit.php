@@ -123,9 +123,10 @@
 	<script>
 		//load datepicker control onfocus
 		$(function () {
-			$("#xDate").datepicker(
-				{ dateFormat: "yy-mm-dd" }
-			);
+			$("#xDate").datepicker({
+						dateFormat: "yy-mm-dd",
+						firstDay: 1
+			});
 		});
 		function mydelete() {
 			bootbox.dialog( {
