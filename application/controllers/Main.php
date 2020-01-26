@@ -6,11 +6,17 @@ class Main extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
+    if(!$this->session->username){
+      redirect('login/index');
+    }
 		$this->load->model('model_expenses');
 	}
 
 	public function index() {
-		$this->output();
+// Comment/Uncomment next 2 lines accordingly
+
+//		$this->output(); // load first page of table
+		$this->last_page(); // load last page of table
 	}
 
 	public function output() {
