@@ -20,6 +20,7 @@ class Main extends CI_Controller {
 	}
 
 	public function output() {
+    $st = "NIL";
 		//pagination settings
 		$config['base_url'] = site_url('output');
 		$config['per_page'] = $this->config->item('per_page'); //defined in main config
@@ -52,7 +53,7 @@ class Main extends CI_Controller {
 		$config['num_links'] = 2;
 
 		$data['currentpage'] = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-		$results = $this->model_expenses->get_records(max(0,($data['currentpage']-1))*$config['per_page'], $config['per_page']);
+		$results = $this->model_expenses->get_records(max(0,($data['currentpage']-1))*$config['per_page'], $config['per_page'], $st);
 		$data['expenses'] = $results->result();
 
 		$this->pagination->initialize($config);
