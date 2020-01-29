@@ -9,11 +9,13 @@ class Model_expenses extends CI_Model {
         $this->load->database();
 	}
 
-	public function get_records($start, $limit) {
+	public function get_records($start, $limit, $st = NULL) {
 //		$query = $this->db->get('view_all');
+    if ($st == "NIL") $st = "";
 		$query = $this->db->select ('expdata.id AS id, xDate AS Date, Amount AS Amount, Person AS Person, Description AS Description')
 						->select ('paymentmethods.Method AS Method')
 						->select ('categories.Name AS Category')
+            ->where ('Description', 'like %$st%')
 						->join ('paymentmethods',	'expdata.method_id = paymentmethods.id')
 						->join ('categories', 'expdata.category_id = categories.id')
 						->order_by ('xDate ASC, id ASC')
