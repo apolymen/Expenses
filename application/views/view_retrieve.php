@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       $attributes = array("class" => "form-horizontal", "id" => "searchform", "name" => "searchform");
       echo form_open('main/search', $attributes); ?>
       <div class="col-xs-4">
-          <input type="text" class="form-control" id="search" name="search" placeholder="Search description" value="<?php echo set_value('book_name'); ?>" />
+          <input type="text" class="form-control" id="search" name="search" placeholder="Search description" value="<?php echo set_value('descr_search'); ?>" />
       </div>
       <div class="col-xs-6">
         <input type="submit" class="btn btn-success" value="Search" />
