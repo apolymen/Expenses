@@ -32,14 +32,7 @@ class Model_expenses extends CI_Model {
 
   public function get_records_count($st = NULL) {
     if ($st == "NIL") $st = "";
-		$query = $this->db->select ('expdata.id AS id, xDate AS Date, Amount AS Amount, Person AS Person, Description AS Description')
-						->select ('paymentmethods.Method AS Method')
-						->select ('categories.Name AS Category')
-            ->like ('Description', $st)
-						->join ('paymentmethods',	'expdata.method_id = paymentmethods.id')
-						->join ('categories', 'expdata.category_id = categories.id')
-						->order_by ('xDate ASC, id ASC')
-						->limit($limit, $start)
+		$query = $this->db->like ('Description', $st)
 						->get('expdata');
     return $query->num_rows();
   }
