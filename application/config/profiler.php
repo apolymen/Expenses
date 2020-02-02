@@ -12,3 +12,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |	http://codeigniter.com/user_guide/general/profiling.html
 |
 */
+
+$config['benchmarks']         = FALSE;        // Elapsed time of Benchmark points and total execution time.
+$config['config']             = FALSE;        // CodeIgniter Config variables.
+$config['controller_info']    = TRUE;        // The Controller class and method requested.
+$config['get']                = TRUE;        // Any GET data passed in the request.
+$config['http_headers']       = FALSE;        // The HTTP headers for the current request.
+$config['memory_usage']       = FALSE;        // Amount of memory consumed by the current request, in bytes.
+$config['post']               = TRUE;        // Any POST data passed in the request.
+$config['queries']            = TRUE;        // Listing of all database queries executed, including execution time.
+$config['uri_string']         = TRUE;        // The URI of the current request.
+$config['session_data']       = FALSE;        // Data stored in the current session.
+$config['query_toggle_count'] = 25;          // The number of queries after which the query block will default to hidden.
