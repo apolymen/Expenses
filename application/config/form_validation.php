@@ -31,5 +31,5 @@ $config = array(
 			'field' => 'category',
 			'label' => 'Category',
 			'rules' => 'callback_combo_check'
-	),
+	)
 );
