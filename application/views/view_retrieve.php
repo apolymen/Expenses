@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -9,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <title>Expenses Home</title>
 
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css">
-
+  
   <style type="text/css">
   p.footer {
     text-align: right;
@@ -29,24 +30,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <div class="row top-buffer">
       <div class="col-xs-2">
-        <button type="button" class="btn btn-primary btn-lg" onclick="location.href='<?php echo base_url(); ?>input'">Input</button>
+        <button type="button" class="btn btn-primary" onclick="location.href='<?php echo base_url(); ?>input'">Input</button>
       </div>
       <?php 
-      $attributes = array("class" => "form-horizontal", "id" => "searchform", "name" => "searchform");
-      echo form_open('main/search', $attributes); ?>
+      $attributes = array("class" => "form-horizontal", "id" => "searchform", "name" => "searchform", "autocomplete" => "off");
+      echo form_open('search', $attributes); ?>
       <div class="col-xs-4">
-          <input type="text" class="form-control" id="search" name="search" placeholder="Search description" value="<?php echo set_value('descr_search'); ?>" />
+          <input type="text" class="form-control" id="descr_search" name="descr_search" placeholder="Search description" value="<?php echo set_value('descr_search', $search); ?>" />
+          <span class="text-danger"><?php echo form_error('descr_search'); ?></span>
       </div>
       <div class="col-xs-6">
-        <input type="submit" class="btn btn-success" value="Search" />
-        <input type="button" class="btn btn-danger" onclick="location.href='<?php echo base_url(); ?>main/last_page'" value="Show all" />
+        <button type="submit" class="btn btn-success">Search</button>
+        <button type="button" class="btn btn-danger" onclick="location.href='<?php echo base_url(); ?>'">Show all</button>
       </div>
       <?php echo form_close(); ?>
     </div>
     <div class="top-buffer"></div>
-
-      <p style="font-size: 14px;">Total entries: <?=$rows?></p>
-
+    <p>Total entries: <?=$rows?></p>
     <table class="table table-bordered table-condensed table-striped">
       <thead>
         <tr>
@@ -59,9 +59,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($expenses as $row): ?>
-        <tr> <td class="hidden"><?=$row->id?></td> <td style="white-space: nowrap;"><?=implode('-', array_reverse(explode('-', $row->Date)))?></td> <td><?=number_format($row->Amount,2)?></td> <td><?=$row->Person?></td> <td><?=$row->Description?></td> <td><?=$row->Method?></td> <td><?=$row->Category?></td> </tr>
-        <?php endforeach; ?>
+        <?php if (is_array($expenses)) { ?>
+          <?php foreach ($expenses as $row): ?>
+          <tr> <td class="hidden"><?=$row->id?></td> <td style="white-space: nowrap;"><?=implode('-', array_reverse(explode('-', $row->Date)))?></td> <td><?=number_format($row->Amount,2)?></td> <td><?=$row->Person?></td> <td><?=$row->Description?></td> <td><?=$row->Method?></td> <td><?=$row->Category?></td> </tr>
+          <?php endforeach; ?>
+        <?php } ?>
       </tbody>
     </table>
 

@@ -1,15 +1,18 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 // First letter of Main class and corresponding filename must be capital!
 class Main extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
+
+// Restrict access only to logged in users
     if(!$this->session->username){
       redirect('login/index');
     }
-		$this->load->model('model_expenses');
+
+ 		$this->load->model('model_expenses');
+  //$this->output->enable_profiler(TRUE);
 	}
 
 	public function index() {
@@ -20,9 +23,10 @@ class Main extends CI_Controller {
 	}
 
 	public function output() {
-		//pagination settings
+		// CI pagination settings
 		$config['base_url'] = site_url('output');
 		$config['per_page'] = $this->config->item('per_page'); //defined in main config
+		$config['num_links'] = 2;
 		$config['uri_segment'] = 2;
 		$config['use_page_numbers'] = True;
 
@@ -49,11 +53,11 @@ class Main extends CI_Controller {
 		$data['rows'] = $this->db->count_all('expdata');
 		$config['total_rows'] = $data['rows'];
 		$data['per_page'] = $config['per_page'];
-		$config['num_links'] = 2;
 
 		$data['currentpage'] = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-		$results = $this->model_expenses->get_records(max(0,($data['currentpage']-1))*$config['per_page'], $config['per_page'], NULL);
+		$results = $this->model_expenses->get_records(max(0,($data['currentpage']-1))*$config['per_page'], $config['per_page'], 'NIL');
 		$data['expenses'] = $results->result();
+    $data['search'] = '';
 
 		$this->pagination->initialize($config);
 		$data['pagination'] = $this->pagination->create_links();
@@ -62,49 +66,56 @@ class Main extends CI_Controller {
 	}
 
 	public function search() {
-    // get search string
-    $search = ($this->input->post("descr_search"))? $this->input->post("descr_search") : "NIL";
-    $search = ($this->uri->segment(2)) ? $this->uri->segment(2) : $search;
+    // If empty search string AND this is the first call, redirect to start
+    if ($this->input->post('descr_search') == '' && ! $this->uri->segment(2)) {
+      redirect('/');
+    }
+    // Get search string either from form POST (first call) or from URI (subsequent calls due to pagination)
+    $searchenc = ($this->uri->segment(2)) ? $this->uri->segment(2) : $this->input->post('descr_search');
+    // URLdecode search string for Greek support
+    $search = urldecode($searchenc);
+    // CI pagination settings
+    $config['base_url'] = site_url("search/$search");
+    $config['per_page'] = $this->config->item('per_page'); //defined in main config
+    $config['num_links'] = 2;
+    $config['uri_segment'] = 3;
+    $config['use_page_numbers'] = True;
 
-		//pagination settings
-    $config = array();
-		$config['base_url'] = site_url('search/$search');
-		$config['per_page'] = $this->config->item('per_page'); //defined in main config
-		$config['uri_segment'] = 3;
-		$config['use_page_numbers'] = True;
+    //config for bootstrap pagination class integration
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';
+    $config['first_link'] = "First";
+    $config['last_link'] = "Last";
+    $config['first_tag_open'] = '<li>';
+    $config['first_tag_close'] = '</li>';
+    $config['prev_link'] = '&laquo';
+    $config['prev_tag_open'] = '<li class="prev">';
+    $config['prev_tag_close'] = '</li>';
+    $config['next_link'] = '&raquo';
+    $config['next_tag_open'] = '<li>';
+    $config['next_tag_close'] = '</li>';
+    $config['last_tag_open'] = '<li>';
+    $config['last_tag_close'] = '</li>';
+    $config['cur_tag_open'] = '<li class="active"><a href="#">';
+    $config['cur_tag_close'] = '</a></li>';
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
 
-		//config for bootstrap pagination class integration
-		$config['full_tag_open'] = '<ul class="pagination">';
-		$config['full_tag_close'] = '</ul>';
-		$config['first_link'] = "First";
-		$config['last_link'] = "Last";
-		$config['first_tag_open'] = '<li>';
-		$config['first_tag_close'] = '</li>';
-		$config['prev_link'] = '&laquo';
-		$config['prev_tag_open'] = '<li class="prev">';
-		$config['prev_tag_close'] = '</li>';
-		$config['next_link'] = '&raquo';
-		$config['next_tag_open'] = '<li>';
-		$config['next_tag_close'] = '</li>';
-		$config['last_tag_open'] = '<li>';
-		$config['last_tag_close'] = '</li>';
-		$config['cur_tag_open'] = '<li class="active"><a href="#">';
-		$config['cur_tag_close'] = '</a></li>';
-		$config['num_tag_open'] = '<li>';
-		$config['num_tag_close'] = '</li>';
+    $data['rows'] = $this->model_expenses->get_records_count($search);
+    $config['total_rows'] = $data['rows'];
+    $data['per_page'] = $config['per_page'];
 
-		$config['total_rows'] = $this->model_expenses->get_records_count($search);
-		$data['per_page'] = $config['per_page'];
-		$config['num_links'] = 2;
+    $data['currentpage'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+    $results = $this->model_expenses->get_records(max(0,($data['currentpage']-1))*$config['per_page'], $config['per_page'], $search);
+//var_dump($search,$results);
+    // Check for empty result set
+    $data['expenses'] = (! is_null($results)) ? $results->result() : '';
+    $data['search'] = $search;
 
-		$data['currentpage'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-		$results = $this->model_expenses->get_records(max(0,($data['currentpage']-1))*$config['per_page'], $config['per_page'], $search);
-		$data['expenses'] = $results->result();
+    $this->pagination->initialize($config);
+    $data['pagination'] = $this->pagination->create_links();
 
-		$this->pagination->initialize($config);
-		$data['pagination'] = $this->pagination->create_links();
-
-		$this->load->view('view_retrieve', $data);
+    $this->load->view('view_retrieve', $data);
   }
 
 	public function input() {

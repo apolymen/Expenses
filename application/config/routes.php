@@ -56,3 +56,6 @@ $route['input'] = 'main/input';
 $route['output'] = 'main/output';
 $route['output/(:num)'] = 'main/output/$1';
 $route['edit/(:num)'] = 'main/edit/$1';
+$route['search'] = 'main/search';
+$route['search/(:any)'] = 'main/search/$1';
+$route['search/(:any)/(:num)'] = 'main/search/$1/$2';
