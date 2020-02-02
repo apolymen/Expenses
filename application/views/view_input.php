@@ -100,9 +100,9 @@
 			</div>
 			<div class="form-group">
 			<div class="col-sm-offset-4 col-lg-8 col-sm-8">
-				<input type="submit" class="btn btn-success" value="Submit" />
-				<input type="button" class="btn btn-danger" onclick="location.href='<?php echo base_url(); ?>main/reset_form	'" value="Reset" />
-				<input type="button" class="btn btn-primary pull-right" onclick="location.href='<?php echo base_url(); ?>main/last_page'" value="Main page" />
+				<button type="submit" class="btn btn-success">Submit</button>
+				<button type="button" class="btn btn-danger" onclick="location.href='<?php echo base_url(); ?>main/reset_form	'">Reset</button>
+				<button type="button" class="btn btn-primary pull-right" onclick="location.href='<?php echo base_url(); ?>main/last_page'">Main page</button>
 			</div>
 			</div>
 
