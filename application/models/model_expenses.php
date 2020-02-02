@@ -15,9 +15,9 @@ class Model_expenses extends CI_Model {
 		$query = $this->db->select ('expdata.id AS id, xDate AS Date, Amount AS Amount, Person AS Person, Description AS Description')
 						->select ('paymentmethods.Method AS Method')
 						->select ('categories.Name AS Category')
-            ->like ('Description', $st)
 						->join ('paymentmethods',	'expdata.method_id = paymentmethods.id')
 						->join ('categories', 'expdata.category_id = categories.id')
+            ->like ('Description', $st)
 						->order_by ('xDate ASC, id ASC')
 						->limit($limit, $start)
 						->get('expdata');
