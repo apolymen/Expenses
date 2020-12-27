@@ -1,3 +1,10 @@
+php_value session.gc_probability 1
+php_value session.gc_divisor 100
+
+# Environment variable (development | production)
+# If not set, default is development
+#SetEnv CI_ENV production
+
 <IfModule rewrite_module>
 
 RewriteEngine on
