@@ -1,21 +1,6 @@
 .DS_Store
 
-application/cache/*
-!application/cache/index.html
-!application/cache/.htaccess
-
-application/logs/*
-!application/logs/index.html
-!application/logs/.htaccess
-
-user_guide_src/build/*
-user_guide_src/cilexer/build/*
-user_guide_src/cilexer/dist/*
-user_guide_src/cilexer/pycilexer.egg-info/*
-/vendor/
-
 # IDE Files
-#-------------------------
 /nbproject/
 .idea/*
 
@@ -27,10 +12,14 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 *.sublime-project
 
 # CI ignore
-*/logs/log-*.php
-*/logs/!index.html
-*/cache/*
-*/cache/!index.html
-/application/config/production/
-/application/config/development/
+application/cache/
+!application/cache/index.html
+!application/cache/.htaccess
+
+application/logs/
+!application/logs/index.html
+!application/logs/.htaccess
+
+/application/config/production/*.php
+/application/config/development/*.php
 /application/sessions/
