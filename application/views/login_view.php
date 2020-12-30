@@ -3,12 +3,15 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Expenses Login</title>
 
+    <link rel="icon" type="image/png" sizes="32x32" href="<?php echo base_url(); ?>assets/images/expenses32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url(); ?>assets/images/expenses16.png">
+
     <!--link the bootstrap css file-->
-		<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css">
 
     <style type="text/css">
       .colbox {
@@ -85,8 +88,8 @@
   </div>
 
   <!--load jQuery library-->
-	<script src="<?php echo base_url(); ?>assets/js/jquery-2.2.0.min.js"></script>
+  <script src="<?php echo base_url(); ?>assets/js/jquery-2.2.0.min.js"></script>
   <!--load bootstrap.js-->
-	<script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
+  <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
 </body>
 </html>
