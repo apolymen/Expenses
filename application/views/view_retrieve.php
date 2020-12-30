@@ -9,6 +9,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Expenses Home</title>
 
+  <link rel="icon" type="image/png" sizes="32x32" href="<?php echo base_url(); ?>assets/images/expenses32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url(); ?>assets/images/expenses16.png">
+
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css">
   
   <style type="text/css">
