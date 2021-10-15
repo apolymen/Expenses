@@ -34,7 +34,8 @@ class Model_expenses extends CI_Model {
   public function get_records_count($st = NULL) {
     if ($st == "NIL") $st = "";
     $query = $this->db->like ('Description', $st)
-            ->get('expdata');
+                      ->or_like ('xDate', $st)
+                      ->get('expdata');
     return $query->num_rows();
   }
 
