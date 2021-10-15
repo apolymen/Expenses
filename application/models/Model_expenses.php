@@ -17,7 +17,7 @@ class Model_expenses extends CI_Model {
 						->select ('categories.Name AS Category')
 						->join ('paymentmethods',	'expdata.method_id = paymentmethods.id')
 						->join ('categories', 'expdata.category_id = categories.id')
-            ->like ('Description', $st)
+            ->or_like ('Description', $st)
 						->order_by ('xDate ASC, id ASC')
 						->limit($limit, $start)
 						->get('expdata');
