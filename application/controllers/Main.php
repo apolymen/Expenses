@@ -16,7 +16,7 @@ class Main extends CI_Controller {
 	}
 
 	public function index() {
-// Comment/Uncomment next 2 lines accordingly
+	// Comment/Uncomment next 2 lines accordingly
 
 //		$this->output(); // load first page of table
 		$this->last_page(); // load last page of table
@@ -57,7 +57,7 @@ class Main extends CI_Controller {
 		$data['currentpage'] = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
 		$results = $this->model_expenses->get_records(max(0,($data['currentpage']-1))*$config['per_page'], $config['per_page'], 'NIL');
 		$data['expenses'] = $results->result();
-    $data['search'] = '';
+    		$data['search'] = '';
 
 		$this->pagination->initialize($config);
 		$data['pagination'] = $this->pagination->create_links();
@@ -66,56 +66,56 @@ class Main extends CI_Controller {
 	}
 
 	public function search() {
-    // If empty search string AND this is the first call, redirect to start
-    if ($this->input->post('descr_search') == '' && ! $this->uri->segment(2)) {
-      redirect('/');
-    }
-    // Get search string either from form POST (first call) or from URI (subsequent calls due to pagination)
-    $searchenc = ($this->uri->segment(2)) ? $this->uri->segment(2) : $this->input->post('descr_search');
-    // URLdecode search string for Greek support
-    $search = urldecode($searchenc);
-    // CI pagination settings
-    $config['base_url'] = site_url("search/$search");
-    $config['per_page'] = $this->config->item('per_page'); //defined in main config
-    $config['num_links'] = 2;
-    $config['uri_segment'] = 3;
-    $config['use_page_numbers'] = True;
+	    // If empty search string AND this is the first call, redirect to start
+	    if ($this->input->post('descr_search') == '' && ! $this->uri->segment(2)) {
+	      redirect('/');
+	    }
+	    // Get search string either from form POST (first call) or from URI (subsequent calls due to pagination)
+	    $searchenc = ($this->uri->segment(2)) ? $this->uri->segment(2) : $this->input->post('descr_search');
+	    // URLdecode search string for Greek support
+	    $search = urldecode($searchenc);
+	    // CI pagination settings
+	    $config['base_url'] = site_url("search/$search");
+	    $config['per_page'] = $this->config->item('per_page'); //defined in main config
+	    $config['num_links'] = 2;
+	    $config['uri_segment'] = 3;
+	    $config['use_page_numbers'] = True;
 
-    //config for bootstrap pagination class integration
-    $config['full_tag_open'] = '<ul class="pagination">';
-    $config['full_tag_close'] = '</ul>';
-    $config['first_link'] = "First";
-    $config['last_link'] = "Last";
-    $config['first_tag_open'] = '<li>';
-    $config['first_tag_close'] = '</li>';
-    $config['prev_link'] = '&laquo';
-    $config['prev_tag_open'] = '<li class="prev">';
-    $config['prev_tag_close'] = '</li>';
-    $config['next_link'] = '&raquo';
-    $config['next_tag_open'] = '<li>';
-    $config['next_tag_close'] = '</li>';
-    $config['last_tag_open'] = '<li>';
-    $config['last_tag_close'] = '</li>';
-    $config['cur_tag_open'] = '<li class="active"><a href="#">';
-    $config['cur_tag_close'] = '</a></li>';
-    $config['num_tag_open'] = '<li>';
-    $config['num_tag_close'] = '</li>';
+	    //config for bootstrap pagination class integration
+	    $config['full_tag_open'] = '<ul class="pagination">';
+	    $config['full_tag_close'] = '</ul>';
+	    $config['first_link'] = "First";
+	    $config['last_link'] = "Last";
+	    $config['first_tag_open'] = '<li>';
+	    $config['first_tag_close'] = '</li>';
+	    $config['prev_link'] = '&laquo';
+	    $config['prev_tag_open'] = '<li class="prev">';
+	    $config['prev_tag_close'] = '</li>';
+	    $config['next_link'] = '&raquo';
+	    $config['next_tag_open'] = '<li>';
+	    $config['next_tag_close'] = '</li>';
+	    $config['last_tag_open'] = '<li>';
+	    $config['last_tag_close'] = '</li>';
+	    $config['cur_tag_open'] = '<li class="active"><a href="#">';
+	    $config['cur_tag_close'] = '</a></li>';
+	    $config['num_tag_open'] = '<li>';
+	    $config['num_tag_close'] = '</li>';
 
-    $data['rows'] = $this->model_expenses->get_records_count($search);
-    $config['total_rows'] = $data['rows'];
-    $data['per_page'] = $config['per_page'];
+	    $data['rows'] = $this->model_expenses->get_records_count($search);
+	    $config['total_rows'] = $data['rows'];
+	    $data['per_page'] = $config['per_page'];
 
-    $data['currentpage'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-    $results = $this->model_expenses->get_records(max(0,($data['currentpage']-1))*$config['per_page'], $config['per_page'], $search);
-//var_dump($search,$results);
-    // Check for empty result set
-    $data['expenses'] = (! is_null($results)) ? $results->result() : '';
-    $data['search'] = $search;
+	    $data['currentpage'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+	    $results = $this->model_expenses->get_records(max(0,($data['currentpage']-1))*$config['per_page'], $config['per_page'], $search);
+		//var_dump($search,$results);
+	    // Check for empty result set
+	    $data['expenses'] = (! is_null($results)) ? $results->result() : '';
+	    $data['search'] = $search;
 
-    $this->pagination->initialize($config);
-    $data['pagination'] = $this->pagination->create_links();
+	    $this->pagination->initialize($config);
+	    $data['pagination'] = $this->pagination->create_links();
 
-    $this->load->view('view_retrieve', $data);
+	    $this->load->view('view_retrieve', $data);
   }
 
 	public function input() {
@@ -135,6 +135,7 @@ class Main extends CI_Controller {
 				'Description' => $this->input->post('description'),
 				'method_id' => $this->input->post('payment'),
 				'category_id' => $this->input->post('category')
+				'currency_id' => $this->input->post('currency')
 			);
 			$this->model_expenses->add_record($data);
 
@@ -165,6 +166,7 @@ class Main extends CI_Controller {
 				'Description' => $this->input->post('description'),
 				'method_id' => $this->input->post('payment'),
 				'category_id' => $this->input->post('category')
+				'currency_id' => $this->input->post('currency')
 			);
 			$this->model_expenses->update_record($exp_id, $data);
 
@@ -190,6 +192,7 @@ class Main extends CI_Controller {
 		// Fetch data from paymentmethods and categories tables
 		$temp['paymentmethods'] = $this->model_expenses->get_paymentmethods();
 		$temp['categories'] = $this->model_expenses->get_categories();
+		$temp['currencies'] = $this->model_expenses->get_currencies();
 
 		return $temp;
 	}
