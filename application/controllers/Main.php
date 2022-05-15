@@ -165,7 +165,7 @@ class Main extends CI_Controller {
 				'Person' => $this->input->post('person'),
 				'Description' => $this->input->post('description'),
 				'method_id' => $this->input->post('payment'),
-				'category_id' => $this->input->post('category')
+				'category_id' => $this->input->post('category'),
 				'currency_id' => $this->input->post('currency')
 			);
 			$this->model_expenses->update_record($exp_id, $data);
