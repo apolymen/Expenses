@@ -54,6 +54,19 @@
       <div class="form-group">
       <div class="row colbox">
       <div class="col-lg-4 col-sm-4">
+        <label for="currency" class="control-label">Currency:</label>
+      </div>
+      <div class="col-lg-8 col-sm-8">
+        <?php
+          $attributes = 'class="form-control" id="currency"';
+          echo form_dropdown('currency',$currencies,set_value('currency',$row->currency),$attributes);?>
+        <span class="text-danger"><?php echo form_error('currency'); ?></span>
+      </div>
+      </div>
+      </div>
+      <div class="form-group">
+      <div class="row colbox">
+      <div class="col-lg-4 col-sm-4">
         <label for="person" class="control-label">Person:</label>
       </div>
       <div class="col-lg-8 col-sm-8">

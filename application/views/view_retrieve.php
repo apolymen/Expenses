@@ -55,6 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <tr>
           <th>Date</th>
           <th>Amount</th>
+          <th>Currency</th>
           <th>Person</th>
           <th>Description</th>
           <th>Payment</th>
@@ -64,7 +65,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <tbody>
         <?php if (is_array($expenses)) { ?>
           <?php foreach ($expenses as $row): ?>
-          <tr> <td class="hidden"><?=$row->id?></td> <td style="white-space: nowrap;"><?=implode('-', array_reverse(explode('-', $row->Date)))?></td> <td><?=number_format($row->Amount,2)?></td> <td><?=$row->Person?></td> <td><?=$row->Description?></td> <td><?=$row->Method?></td> <td><?=$row->Category?></td> </tr>
+          <tr> <td class="hidden"><?=$row->id?></td> <td style="white-space: nowrap;"><?=implode('-', array_reverse(explode('-', $row->Date)))?></td> <td><?=number_format($row->Amount,2)?></td> <td><?=$row->Currency?></td> <td><?=$row->Person?></td> <td><?=$row->Description?></td> <td><?=$row->Method?></td> <td><?=$row->Category?></td> </tr>
           <?php endforeach; ?>
         <?php } ?>
       </tbody>
