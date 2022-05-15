@@ -59,7 +59,7 @@
       <div class="col-lg-8 col-sm-8">
         <?php
           $attributes = 'class="form-control" id="currency"';
-          echo form_dropdown('currency',$persons,set_value('currency',$row->currency),$attributes);?>
+          echo form_dropdown('currency',$currencies,set_value('currency',$row->currency),$attributes);?>
         <span class="text-danger"><?php echo form_error('currency'); ?></span>
       </div>
       </div>
