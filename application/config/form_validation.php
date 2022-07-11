@@ -13,6 +13,11 @@ $config = array(
 			'rules' => 'trim|required'
 	),
 	array(
+			'field' => 'currency',
+			'label' => 'Currency',
+			'rules' => 'callback_combo_check'
+	),
+	array(
 			'field' => 'person',
 			'label' => 'Person',
 			'rules' => 'callback_combo_check'
