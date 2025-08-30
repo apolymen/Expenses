@@ -22,6 +22,12 @@ class Main extends CI_Controller {
 		$this->last_page(); // load last page of table
 	}
 
+	public function last_page() {
+		$last = ceil($this->db->count_all('expdata') / $this->config->item('per_page'));
+		// PHP dot operator used to concatenate strings
+		redirect('output/' . $last);
+	}
+
 	public function output() {
 		// CI pagination settings
 		$config['base_url'] = site_url('output');
@@ -57,7 +63,7 @@ class Main extends CI_Controller {
 		$data['currentpage'] = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
 		$results = $this->model_expenses->get_records(max(0,($data['currentpage']-1))*$config['per_page'], $config['per_page'], 'NIL');
 		$data['expenses'] = $results->result();
-    		$data['search'] = '';
+    	$data['search'] = '';
 
 		$this->pagination->initialize($config);
 		$data['pagination'] = $this->pagination->create_links();
@@ -70,11 +76,20 @@ class Main extends CI_Controller {
 	    if ($this->input->post('descr_search') == '' && ! $this->uri->segment(2)) {
 	      redirect('/');
 	    }
-	    // Get search string either from form POST (first call) or from URI (subsequent calls due to pagination)
+
+      // Get search string either from form POST (first call) or from URI (subsequent calls due to pagination)
 	    $searchenc = ($this->uri->segment(2)) ? $this->uri->segment(2) : $this->input->post('descr_search');
-	    // URLdecode search string for Greek support
+
+      // URLdecode search string for Greek support
 	    $search = urldecode($searchenc);
-	    // CI pagination settings
+
+      // If non empty search string AND this is the first call, redirect to last page of search results
+	    if ($this->input->post('descr_search') != '' && ! $this->uri->segment(2)) {
+	      $last = ceil($this->model_expenses->get_records_count($search) / $this->config->item('per_page'));
+        redirect("search/$search/" . $last);
+	    }
+
+      // CI pagination settings
 	    $config['base_url'] = site_url("search/$search");
 	    $config['per_page'] = $this->config->item('per_page'); //defined in main config
 	    $config['num_links'] = 2;
@@ -240,9 +255,4 @@ class Main extends CI_Controller {
 		redirect('input');
 	}
 	
-	public function last_page() {
-		$last = ceil($this->db->count_all('expdata') / $this->config->item('per_page'));
-		redirect('output/' . $last);
-	}
-
 }
