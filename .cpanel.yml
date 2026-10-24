@@ -6,5 +6,3 @@ deployment:
     - /bin/cp -R public $DEPLOYPATH
     - /bin/cp -R system $DEPLOYPATH
     - /bin/cp -R writable $DEPLOYPATH
-    - /bin/cp preload.php $DEPLOYPATH
-    - /bin/cp .env $DEPLOYPATH
