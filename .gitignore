@@ -1,0 +1,26 @@
+.DS_Store
+
+# IDE Files
+/nbproject/
+.idea/*
+
+## Sublime Text cache files
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
+
+# CI ignore
+writable/cache/
+!writable/cache/index.html
+!writable/cache/.htaccess
+
+writable/logs/
+!writable/logs/index.html
+!writable/logs/.htaccess
+
+/writable/session/
+
+/app/Config/Boot/production.php
+/app/Config/Boot/development.php
