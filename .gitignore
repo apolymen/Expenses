@@ -23,3 +23,5 @@ application/logs/
 /application/config/production/*.php
 /application/config/development/*.php
 /application/sessions/
+
+.env
