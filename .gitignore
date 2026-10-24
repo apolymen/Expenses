@@ -21,6 +21,3 @@ writable/logs/
 !writable/logs/.htaccess
 
 /writable/session/
-
-/app/Config/Boot/production.php
-/app/Config/Boot/development.php
